@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="FIT4110 Lab03 - IoT Ingestion Contract Tests" tests="18" time="0.196">
+  <testsuite name="01_Functional / GET /health - service is alive" id="d6ad7e65-069d-4ed7-a784-a0ef9de8fb1c" timestamp="2026-05-26T04:44:10.871Z" tests="2" failures="0" errors="0" time="0.042">
+    <testcase name="Status code is 200" time="0.042" classname="01FunctionalGetHealthServiceIsAlive"/>
+    <testcase name="Health response has ok status and service name" time="0.042" classname="01FunctionalGetHealthServiceIsAlive"/>
+  </testsuite>
+  <testsuite name="01_Functional / POST /telemetry/readings - happy path accepts reading" id="dc14c80c-1497-461c-ae23-5bc5558e9d53" timestamp="2026-05-26T04:44:10.871Z" tests="3" failures="0" errors="0" time="0.021">
+    <testcase name="Status code is 202 Accepted" time="0.021" classname="01FunctionalPostTelemetryReadingsHappyPathAcceptsReading"/>
+    <testcase name="Response has accepted reading fields" time="0.021" classname="01FunctionalPostTelemetryReadingsHappyPathAcceptsReading"/>
+    <testcase name="Identifiers are UUID-like" time="0.021" classname="01FunctionalPostTelemetryReadingsHappyPathAcceptsReading"/>
+  </testsuite>
+  <testsuite name="01_Functional / GET /telemetry/readings/{readingId} - get accepted reading" id="86fe32a9-677b-464b-b00a-8bea9f45c43e" timestamp="2026-05-26T04:44:10.871Z" tests="2" failures="0" errors="0" time="0.015">
+    <testcase name="Status code is 200" time="0.015" classname="01FunctionalGetTelemetryReadingsReadingIdGetAcceptedReading"/>
+    <testcase name="Response contains normalized telemetry reading" time="0.015" classname="01FunctionalGetTelemetryReadingsReadingIdGetAcceptedReading"/>
+  </testsuite>
+  <testsuite name="01_Functional / GET /devices/{deviceId}/latest - latest reading" id="67e10b7c-6de1-4788-bc7b-7107b789819f" timestamp="2026-05-26T04:44:10.871Z" tests="2" failures="0" errors="0" time="0.008">
+    <testcase name="Status code is 200" time="0.008" classname="01FunctionalGetDevicesDeviceIdLatestLatestReading"/>
+    <testcase name="Latest reading has device and value fields" time="0.008" classname="01FunctionalGetDevicesDeviceIdLatestLatestReading"/>
+  </testsuite>
+  <testsuite name="01_Functional / POST /events/sensor - telemetry.ingested event is accepted" id="d2b0a865-6075-4582-999c-4277e86a9dab" timestamp="2026-05-26T04:44:10.871Z" tests="2" failures="0" errors="0" time="0.014">
+    <testcase name="Status code is 202 Accepted" time="0.014" classname="01FunctionalPostEventsSensorTelemetryIngestedEventIsAccepted"/>
+    <testcase name="Event acceptance response contains eventId and acceptedAt" time="0.014" classname="01FunctionalPostEventsSensorTelemetryIngestedEventIsAccepted"/>
+  </testsuite>
+  <testsuite name="02_Auth / GET /devices/{deviceId}/latest - valid token is accepted" id="70498698-787a-4627-9bf0-84cfe65ed718" timestamp="2026-05-26T04:44:10.871Z" tests="1" failures="0" errors="0" time="0.005">
+    <testcase name="Valid token request returns success" time="0.005" classname="02AuthGetDevicesDeviceIdLatestValidTokenIsAccepted"/>
+  </testsuite>
+  <testsuite name="02_Auth / POST /telemetry/readings - missing token is rejected on real service" id="2b8c246b-ce30-40e0-92c1-1200b0bef67d" timestamp="2026-05-26T04:44:10.871Z" tests="1" failures="0" errors="0" time="0.012">
+    <testcase name="Skipped on mock: Prism does not enforce real auth middleware" time="0.012" classname="02AuthPostTelemetryReadingsMissingTokenIsRejectedOnRealService"/>
+  </testsuite>
+  <testsuite name="02_Auth / POST /telemetry/readings - invalid token is rejected on real service" id="50eee77b-800b-47b3-b94d-7122e53974f9" timestamp="2026-05-26T04:44:10.871Z" tests="1" failures="0" errors="0" time="0.005">
+    <testcase name="Skipped on mock: invalid token requires real auth middleware" time="0.005" classname="02AuthPostTelemetryReadingsInvalidTokenIsRejectedOnRealService"/>
+  </testsuite>
+  <testsuite name="03_Negative / POST /telemetry/readings - missing deviceId returns validation error" id="fe00452e-d9ba-44d1-9ca0-c964cfe8f298" timestamp="2026-05-26T04:44:10.871Z" tests="2" failures="0" errors="0" time="0.009">
+    <testcase name="Invalid payload returns client error" time="0.009" classname="03NegativePostTelemetryReadingsMissingDeviceIdReturnsValidationError"/>
+    <testcase name="Error response follows Problem Details shape" time="0.009" classname="03NegativePostTelemetryReadingsMissingDeviceIdReturnsValidationError"/>
+  </testsuite>
+  <testsuite name="03_Negative / POST /telemetry/readings - wrong sensorType returns validation error" id="9c078d17-bb26-4d63-a854-513f534358db" timestamp="2026-05-26T04:44:10.871Z" tests="2" failures="0" errors="0" time="0.005">
+    <testcase name="Wrong sensorType enum returns client error" time="0.005" classname="03NegativePostTelemetryReadingsWrongSensorTypeReturnsValidationError"/>
+    <testcase name="Error response has status in Problem Details range" time="0.005" classname="03NegativePostTelemetryReadingsWrongSensorTypeReturnsValidationError"/>
+  </testsuite>
+  <testsuite name="03_Negative / GET /telemetry/readings/{readingId} - unknown reading returns 404" id="1cae3ae0-015b-46cc-b793-d4edf61e6283" timestamp="2026-05-26T04:44:10.871Z" tests="2" failures="0" errors="0" time="0.008">
+    <testcase name="Unknown reading returns 404" time="0.008" classname="03NegativeGetTelemetryReadingsReadingIdUnknownReadingReturns404"/>
+    <testcase name="Not found response follows Problem Details shape" time="0.008" classname="03NegativeGetTelemetryReadingsReadingIdUnknownReadingReturns404"/>
+  </testsuite>
+  <testsuite name="04_Boundary_Reliability / POST /telemetry/readings - boundary max value is accepted" id="1dc1036e-5452-4a4c-88f4-afc1466fa059" timestamp="2026-05-26T04:44:10.871Z" tests="2" failures="0" errors="0" time="0.004">
+    <testcase name="Boundary max value returns accepted status" time="0.004" classname="04BoundaryReliabilityPostTelemetryReadingsBoundaryMaxValueIsAccepted"/>
+    <testcase name="Response confirms accepted reading" time="0.004" classname="04BoundaryReliabilityPostTelemetryReadingsBoundaryMaxValueIsAccepted"/>
+  </testsuite>
+  <testsuite name="04_Boundary_Reliability / POST /telemetry/readings - value above max is rejected" id="3b12235e-cc84-4f58-81fc-d14aef0e7b66" timestamp="2026-05-26T04:44:10.871Z" tests="2" failures="0" errors="0" time="0.006">
+    <testcase name="Out-of-range value returns client error" time="0.006" classname="04BoundaryReliabilityPostTelemetryReadingsValueAboveMaxIsRejected"/>
+    <testcase name="Boundary test checks response error model" time="0.006" classname="04BoundaryReliabilityPostTelemetryReadingsValueAboveMaxIsRejected"/>
+  </testsuite>
+  <testsuite name="04_Boundary_Reliability / POST /telemetry/readings - rate limit response is documented" id="219b5275-5700-4d25-b5e5-35d02b740796" timestamp="2026-05-26T04:44:10.871Z" tests="2" failures="0" errors="0" time="0.008">
+    <testcase name="Rate limit response returns 429" time="0.008" classname="04BoundaryReliabilityPostTelemetryReadingsRateLimitResponseIsDocumented"/>
+    <testcase name="Rate limit response follows Problem Details shape" time="0.008" classname="04BoundaryReliabilityPostTelemetryReadingsRateLimitResponseIsDocumented"/>
+  </testsuite>
+  <testsuite name="04_Boundary_Reliability / GET /devices/{deviceId}/latest - invalid device format is rejected or not found" id="f81dcec3-ccf8-4d1f-90ad-f936f8af71d0" timestamp="2026-05-26T04:44:10.871Z" tests="1" failures="0" errors="0" time="0.004">
+    <testcase name="Invalid or unknown device returns client error" time="0.004" classname="04BoundaryReliabilityGetDevicesDeviceIdLatestInvalidDeviceFormatIsRejectedOrNotFound"/>
+  </testsuite>
+  <testsuite name="05_Consumer_side_Smoke / Analytics consumer smoke - read telemetry.ingested from IoT mock" id="6369c3c6-ec40-41e1-8731-d1c73ddc9edb" timestamp="2026-05-26T04:44:10.871Z" tests="2" failures="0" errors="0" time="0.005">
+    <testcase name="Analytics consumer receives accepted response from IoT provider mock" time="0.005" classname="05ConsumerSideSmokeAnalyticsConsumerSmokeReadTelemetryIngestedFromIoTMock"/>
+    <testcase name="Consumer can read event tracking fields" time="0.005" classname="05ConsumerSideSmokeAnalyticsConsumerSmokeReadTelemetryIngestedFromIoTMock"/>
+  </testsuite>
+  <testsuite name="05_Consumer_side_Smoke / Analytics consumer smoke - bad IoT event returns Problem Details" id="84f30f5f-dcfb-455a-aba6-22bbea4fdd63" timestamp="2026-05-26T04:44:10.871Z" tests="2" failures="0" errors="0" time="0.019">
+    <testcase name="Bad event returns client error" time="0.019" classname="05ConsumerSideSmokeAnalyticsConsumerSmokeBadIoTEventReturnsProblemDetails"/>
+    <testcase name="Consumer can parse provider error model" time="0.019" classname="05ConsumerSideSmokeAnalyticsConsumerSmokeBadIoTEventReturnsProblemDetails"/>
+  </testsuite>
+  <testsuite name="06_Local_only_NonFunctional / POST /telemetry/readings - local response time threshold" id="f6073650-b051-45b5-8a3a-89120691e25e" timestamp="2026-05-26T04:44:10.871Z" tests="1" failures="0" errors="0" time="0.006">
+    <testcase name="Skipped on mock: mock latency is not evidence of real service reliability" time="0.006" classname="06LocalOnlyNonFunctionalPostTelemetryReadingsLocalResponseTimeThreshold"/>
+  </testsuite>
+</testsuites>
